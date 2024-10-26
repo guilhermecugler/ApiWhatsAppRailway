@@ -8,6 +8,7 @@
   "private": true,
   "dependencies": {
     "@whiskeysockets/baileys": "^6.7.9",
+    "cors": "^2.8.5",
     "express": "^4.21.1",
     "qrcode-terminal": "^0.12.0"
   }

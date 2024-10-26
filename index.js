@@ -1,9 +1,20 @@
 const express = require('express');
 const { default: makeWASocket, useMultiFileAuthState } = require('@whiskeysockets/baileys');
 const qrcode = require('qrcode-terminal');
-
 const app = express();
 const PORT = process.env.PORT || 3000;
+const cors = require('cors');
+
+
+// Configuração do CORS
+const corsOptions = {
+  origin: 'chrome-extension://cjikiplmnkkknokjcblebpjkenddcgin', // Substitua pelo ID da sua extensão
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true, // Se você precisar enviar cookies ou cabeçalhos de autenticação
+};
+
+
+app.use(cors(corsOptions));
 
 app.use(express.json());
 
