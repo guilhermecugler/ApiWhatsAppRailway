@@ -1,5 +1,5 @@
 const express = require('express');
-const { default: makeWASocket, useMultiFileAuthState, delay } = require('@whiskeysockets/baileys');
+const { default: makeWASocket, useMultiFileAuthState } = require('@whiskeysockets/baileys');
 const qrcode = require('qrcode-terminal');
 
 const app = express();
@@ -8,6 +8,18 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 
 let sock;
+
+const formatPhoneNumber = (phone) => {
+    // Remove espaços, hífens e sinais de mais
+    const cleaned = phone.replace(/[\s-+]/g, '');
+
+    // Adiciona o código do país 55 caso não esteja presente
+    if (!cleaned.startsWith('55')) {
+        return '55' + cleaned;
+    }
+
+    return cleaned;
+};
 
 const startWhatsApp = async () => {
     const { state, saveCreds } = await useMultiFileAuthState('./auth_info');
@@ -42,8 +54,11 @@ app.post('/send', async (req, res) => {
         return res.status(400).json({ error: 'Phone number and message are required.' });
     }
 
+    // Formatar o número de telefone
+    const formattedPhone = formatPhoneNumber(phone);
+
     try {
-        const result = await sock.sendMessage(`${phone}@s.whatsapp.net`, { text: message });
+        const result = await sock.sendMessage(`${formattedPhone}@s.whatsapp.net`, { text: message });
         return res.json({ success: true, result });
     } catch (error) {
         return res.status(500).json({ error: 'Failed to send message.', details: error });
