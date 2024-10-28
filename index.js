@@ -8,7 +8,7 @@ const cors = require('cors');
 
 // Configuração do CORS
 const corsOptions = {
-  origin: 'chrome-extension://cjikiplmnkkknokjcblebpjkenddcgin', // Substitua pelo ID da sua extensão
+  origin: ['chrome-extension://cjikiplmnkkknokjcblebpjkenddcgin', 'chrome-extension://oigbloghhgeboadhcjiobnfhaefhkdci'], // Substitua pelo ID da sua extensão
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true, // Se você precisar enviar cookies ou cabeçalhos de autenticação
 };
